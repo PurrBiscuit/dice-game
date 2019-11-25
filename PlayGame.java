@@ -267,6 +267,7 @@ public class PlayGame extends Application
         
         // update the roll counter and clear roll number text
         Dice.resetDice(dice);
+        players[currentPlayerIndex].setRollNumber(0);
         rollText.setText("");
         
         // make roll button visible again
@@ -291,17 +292,17 @@ public class PlayGame extends Application
       currentPlayerIndex = game.getCurrentPlayer() - 1;
       
       // roll all of the dice
-      Player.rollAll(dice);
+      players[currentPlayerIndex].rollAll(dice);
       
       // calculate the score from the roll and update the current player field
       int roundScore = Dice.calculateScore(dice, dice.length);
       players[currentPlayerIndex].setRoundScore(roundScore, currentScoreText);
       
       // display the current roll number
-      rollText.setText("Roll " + dice[0].getRollNumber());
+      rollText.setText("Roll " + players[currentPlayerIndex].getRollNumber());
       
       // hide the roll button if we've reached the last roll for a user
-      if (dice[0].getRollNumber() >= 3)
+      if (players[currentPlayerIndex].getRollNumber() >= 3)
         rollButton.setVisible(false);
     }
   }

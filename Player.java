@@ -79,11 +79,13 @@ public class Player
   }
   
   // method to roll all the dice at one time
-  public static void rollAll(Dice[] dice)
+  public void rollAll(Dice[] dice)
   {
     for (int i = 0; i < dice.length; i++)
       if (!dice[i].getSelected())
         dice[i].roll();
+
+    rollNumber++;
   }
   
   // method to set the rollNumber field for a player
