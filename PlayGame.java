@@ -46,8 +46,6 @@ public class PlayGame extends Application
     GridPane playerGrid = new GridPane();
     for (int i = 0; i < players.length; i++)
     {
-      players[i] = new Player(i + 1);
-      
       playerGrid.add(players[i].getPlayerText(), i, 0);
       GridPane.setHalignment(players[i].getPlayerText(), HPos.CENTER);
       playerGrid.add(players[i].getScoreText(), i, 1);
@@ -79,7 +77,6 @@ public class PlayGame extends Application
     
     for (int i = 0; i < dice.length; i++)
     {
-      dice[i] = new Dice();
       diceHBox.getChildren().add(dice[i].getDiceView());
     }
     

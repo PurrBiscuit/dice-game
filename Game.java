@@ -14,8 +14,14 @@ public class Game
   {
     maxRounds = 3;
     maxPlayers = 4;
-    players = new Player[4];
+    players = new Player[maxPlayers];
     dice = new Dice[5];
+
+    for (int i = 0; i < players.length; i++)
+      players[i] = new Player(i + 1);
+
+    for (int i = 0; i < dice.length; i++)
+      dice[i] = new Dice();
   }
   
   public Game(int r, int p, int d)
@@ -24,6 +30,12 @@ public class Game
     maxPlayers = p;
     players = new Player[p];
     dice = new Dice[d];
+
+    for (int i = 0; i < players.length; i++)
+      players[i] = new Player(i + 1);
+
+    for (int i = 0; i < dice.length; i++)
+      dice[i] = new Dice();
   }
   
   public int getCurrentPlayer()
