@@ -83,13 +83,10 @@ public class Game
     return false;
   }
   
-  public static void getWinner(Player[] players, Label rollText)
+  public static void getResult(Player[] players, Label rollText)
   {
     int playerNumber = highScore(players);
-    rollText.setText("Player " + playerNumber + " Wins!");
-    rollText.setStyle("-fx-font-size: 40pt; -fx-text-fill: white");
-    players[playerNumber - 1].getPlayerText().setStyle("-fx-font-weight: bold; -fx-text-fill: white");
-    players[playerNumber - 1].getScoreText().setStyle("-fx-font-weight: bold; -fx-text-fill: white");
+    showWinner(players, playerNumber, rollText);
   }
   
   public static int highScore(Player[] players)
@@ -115,7 +112,7 @@ public class Game
     
     roundScoreText.setVisible(false);
     
-    Game.getWinner(players, rollText);
+    Game.getResult(players, rollText);
   }
   
   public void restart(Player[] players, Dice[] dice, Label roundScoreText,
@@ -142,5 +139,13 @@ public class Game
     roundText.setStyle("");
     rollText.setText("");
     rollText.setStyle("");
+  }
+
+  public static void showWinner(Player[] players, int playerNumber, Label rollText)
+  {
+    rollText.setText("Player " + playerNumber + " Wins!");
+    rollText.setStyle("-fx-font-size: 40pt; -fx-text-fill: white");
+    players[playerNumber - 1].getPlayerText().setStyle("-fx-font-weight: bold; -fx-text-fill: white");
+    players[playerNumber - 1].getScoreText().setStyle("-fx-font-weight: bold; -fx-text-fill: white");
   }
 }
