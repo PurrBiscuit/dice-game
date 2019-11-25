@@ -1,5 +1,5 @@
-.label {
-  -fx-font-size: 30pt;
+.board {
+  -fx-background-image: url("table-background.jpg");
 }
 
 .button {
@@ -15,25 +15,33 @@
   -fx-text-fill: black;
 }
 
+.blue-button {
+  -fx-background-color: linear-gradient(#7ebcea, #2f4b8f);
+}
+
 .player-score {
   -fx-font-size: 40pt;
 }
 
-#roll-warning {
-  -fx-text-fill: red;
-  -fx-font-size: 40pt;
+.root {
+  -fx-font-size: 30pt;
 }
 
-#board {
-  -fx-background-image: url("table-background.jpg");
+.slider {
+  -fx-font-size: 20pt;
+}
+
+.slider .thumb {
+  -fx-pref-height: 30;
+  -fx-pref-width: 30;
+}
+
+.slider .track {
+  -fx-pref-height: 20;
 }
 
 #current-score {
   -fx-font-size: 20pt;
-}
-
-#roll {
-  -fx-background-color: linear-gradient(#7ebcea, #2f4b8f);
 }
 
 #keep-score {

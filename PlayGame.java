@@ -6,17 +6,21 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class PlayGame extends Application
 {
-  Game game = new Game();
-  Dice[] dice = game.getDice();
-  Player[] players = game.getPlayers();
+  final double SCENE_WIDTH = 1400.0;
+  final double SCENE_HEIGHT = 900.0;
+  Game game;
+  Dice[] dice;
+  Player[] players;
   Label currentScoreText, rollText, roundText;
   Button rollButton, keepScoreButton, restartButton, exitButton;
   int currentPlayerIndex;
@@ -29,9 +33,13 @@ public class PlayGame extends Application
   @Override
   public void start(Stage primaryStage)
   {
-    // Constants for the scene size
-    final double SCENE_WIDTH = 1400.0;
-    final double SCENE_HEIGHT = 900.0;
+    // stage for user input before starting game
+    inputStage();
+
+    // grab the players and dice arrays that were created
+    // when the game was initialized in input stage
+    dice = game.getDice();
+    players = game.getPlayers();
     
     // create players and add them to grid pane
     // with scores initialized to 0
@@ -83,7 +91,7 @@ public class PlayGame extends Application
     
     // Add the button to roll
     rollButton = new Button("Roll");
-    rollButton.setId("roll");
+    rollButton.getStyleClass().add("blue-button");
     rollButton.setOnAction(new RollButtonHandler());
     
     // Add the button to keep score
@@ -117,13 +125,7 @@ public class PlayGame extends Application
     
     // Add the nodes to a GridPane
     VBox boardVBox = new VBox(20, playerGrid, roundRollVBox, diceHBox, currentScoreHBox, buttonHBox1, buttonHBox2);
-    boardVBox.setId("board");
-    
-    // temp stage to get user input??
-//     Scene sceneTemp = new Scene(new Label("Hello"), 100, 100);
-//     Stage stageTemp = new Stage();
-//     stageTemp.setScene(sceneTemp);
-//     stageTemp.showAndWait();
+    boardVBox.getStyleClass().add("board");
     
     // Create a Scene with the Pane as the root node
     Scene scene = new Scene(boardVBox, SCENE_WIDTH, SCENE_HEIGHT);
@@ -135,6 +137,91 @@ public class PlayGame extends Application
     
     primaryStage.setScene(scene);
     primaryStage.show();
+  }
+
+  private void inputStage()
+  {
+    // create sliders to capture user input for player count
+    Slider playersSlider = new Slider(1.0, 4.0, 2.0);
+    playersSlider.setMinorTickCount(0);
+    playersSlider.setShowTickLabels(true);
+    playersSlider.setShowTickMarks(true);
+    playersSlider.setSnapToTicks(true);
+    playersSlider.setMajorTickUnit(1.0);
+    playersSlider.setMaxWidth(500.0);
+
+    // create the label for player number input
+    Label playersLabel = new Label("Players: ");
+
+    // create hbox to put the player number label and slider into
+    HBox playersHBox = new HBox(20, playersLabel, playersSlider);
+    playersHBox.setAlignment(Pos.CENTER);
+    playersHBox.setHgrow(playersSlider, Priority.ALWAYS);
+
+    // create sliders to capture user input for round count
+    Slider roundsSlider = new Slider(1.0, 6.0, 3.0);
+    roundsSlider.setMinorTickCount(0);
+    roundsSlider.setShowTickLabels(true);
+    roundsSlider.setShowTickMarks(true);
+    roundsSlider.setSnapToTicks(true);
+    roundsSlider.setMajorTickUnit(1.0);
+    roundsSlider.setMaxWidth(500.0);
+
+    // create the label for round number input
+    Label roundsLabel = new Label("Rounds: ");
+
+    // create hbox to put the round number label and slider into
+    HBox roundsHBox = new HBox(20, roundsLabel, roundsSlider);
+    roundsHBox.setAlignment(Pos.CENTER);
+    roundsHBox.setHgrow(roundsSlider, Priority.ALWAYS);
+
+    // create sliders to capture user input for dice count
+    Slider diceSlider = new Slider(1.0, 5.0, 3.0);
+    diceSlider.setMinorTickCount(0);
+    diceSlider.setShowTickLabels(true);
+    diceSlider.setShowTickMarks(true);
+    diceSlider.setSnapToTicks(true);
+    diceSlider.setMajorTickUnit(1.0);
+    diceSlider.setMaxWidth(500.0);
+
+    // create the label for dice number input
+    Label diceLabel = new Label("Dice: ");
+
+    // create hbox to put the dice number label and slider into
+    HBox diceHBox = new HBox(20, diceLabel, diceSlider);
+    diceHBox.setAlignment(Pos.CENTER);
+    diceHBox.setHgrow(diceSlider, Priority.ALWAYS);
+
+    // create button to start the game
+    Button startGameButton = new Button("Start Game");
+    startGameButton.getStyleClass().add("blue-button");
+
+    VBox inputVBox = new VBox(40, playersHBox, roundsHBox, diceHBox, startGameButton);
+    inputVBox.getStyleClass().add("board");
+    inputVBox.setAlignment(Pos.CENTER);
+
+    Scene inputScene = new Scene(inputVBox, SCENE_WIDTH, SCENE_HEIGHT);
+    // add css styling to scene
+    inputScene.getStylesheets().add("assets/game.css");
+
+    Stage inputStage = new Stage();
+    inputStage.setScene(inputScene);
+
+    startGameButton.setOnAction( event -> {
+      int playersCount = (int)playersSlider.getValue();
+      int roundsCount = (int)roundsSlider.getValue();
+      int diceCount = (int)diceSlider.getValue();
+    
+      game = new Game(roundsCount, playersCount, diceCount);
+      inputStage.close();
+    });
+
+    inputStage.setOnCloseRequest( event ->
+    {
+      System.exit(0);
+    });
+
+    inputStage.showAndWait();
   }
 
   class KeepScoreButtonHandler implements EventHandler<ActionEvent>

@@ -4,9 +4,7 @@ import javafx.scene.control.Label;
 
 public class Game
 {
-  private final static int maxPlayers = 4;
-  private final static int maxDice = 4;
-  private static int maxRounds;
+  private int maxRounds, maxPlayers;
   private int currentPlayer = 1;
   private int currentRound = 1;
   private Player[] players;
@@ -15,6 +13,7 @@ public class Game
   public Game()
   {
     maxRounds = 3;
+    maxPlayers = 4;
     players = new Player[4];
     dice = new Dice[5];
   }
@@ -22,8 +21,9 @@ public class Game
   public Game(int r, int p, int d)
   {
     maxRounds = r;
+    maxPlayers = p;
     players = new Player[p];
-    dice = new Dice[5];
+    dice = new Dice[d];
   }
   
   public int getCurrentPlayer()
