@@ -1,3 +1,5 @@
+// PlayGame class - the driver class that initializes a new game to play
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
@@ -16,20 +18,22 @@ import javafx.stage.Stage;
 
 public class PlayGame extends Application
 {
-  final double SCENE_WIDTH = 1400.0;
-  final double SCENE_HEIGHT = 900.0;
-  Game game;
-  Dice[] dice;
-  Player[] players;
-  Label currentScoreText, rollText, roundText;
-  Button rollButton, keepScoreButton, restartButton, exitButton;
-  int currentPlayerIndex;
+  // create fields that will be used throughout the dice game app
+  private final double SCENE_WIDTH = 1400.0;
+  private final double SCENE_HEIGHT = 900.0;
+  private Game game;
+  private Dice[] dice;
+  private Player[] players;
+  private Label currentScoreText, rollText, roundText;
+  private Button rollButton, keepScoreButton, restartButton, exitButton;
+  private int currentPlayerIndex;
  
   public static void main(String[] args)
   {
     launch(args);
   }
  
+  // override the start method that the Application class requires
   @Override
   public void start(Stage primaryStage)
   {
@@ -37,12 +41,11 @@ public class PlayGame extends Application
     inputStage();
 
     // grab the players and dice arrays that were created
-    // when the game was initialized in input stage
+    // when the game was initialized during the input stage
     dice = game.getDice();
     players = game.getPlayers();
     
-    // create players and add them to grid pane
-    // with scores initialized to 0
+    // add the player text labels to a gridpane for uniform layout
     GridPane playerGrid = new GridPane();
     for (int i = 0; i < players.length; i++)
     {
@@ -56,10 +59,8 @@ public class PlayGame extends Application
     playerGrid.setVgap(10);
     playerGrid.setAlignment(Pos.CENTER);
     playerGrid.setPadding(new Insets(30, 0, 20, 0));
-
-    currentPlayerIndex = game.getCurrentPlayer() - 1;
     
-    // display the round and roll number in VBox
+    // display the current round and roll number in a VBox
     roundText = new Label("Round " + game.getCurrentRound());
     roundText.getStyleClass().add("round-roll");
     rollText = new Label();
@@ -69,8 +70,7 @@ public class PlayGame extends Application
     roundRollVBox.setAlignment(Pos.CENTER);
     roundRollVBox.setPadding(new Insets(0, 0, 10, 0));
     
-    // Create the dice objects and
-    // the hbox to hold the dice images
+    // Create the dice objects and the hbox to hold the dice images
     HBox diceHBox = new HBox(60);
     diceHBox.setAlignment(Pos.CENTER);
     diceHBox.setPadding(new Insets(0, 0, 30, 0));
@@ -80,18 +80,19 @@ public class PlayGame extends Application
       diceHBox.getChildren().add(dice[i].getDiceView());
     }
     
-    // display the round and roll number in VBox
+    // display the current round score for a player in an HBox
+    currentPlayerIndex = game.getCurrentPlayer() - 1;
     currentScoreText = new Label("Current Round Score: " + players[currentPlayerIndex].getRoundScore());
     currentScoreText.setId("current-score");
     HBox currentScoreHBox = new HBox(currentScoreText);
     currentScoreHBox.setAlignment(Pos.CENTER);
     
-    // Add the button to roll
+    // Add the button to roll the dice
     rollButton = new Button("Roll");
     rollButton.getStyleClass().add("blue-button");
     rollButton.setOnAction(new RollButtonHandler());
     
-    // Add the button to keep score
+    // Add the button to keep the score from the last roll
     keepScoreButton = new Button("Keep Score");
     keepScoreButton.setId("keep-score");
     keepScoreButton.setOnAction(new KeepScoreButtonHandler());
@@ -102,6 +103,8 @@ public class PlayGame extends Application
     
     // Add the button to restart game
     restartButton = new Button("Restart");
+
+    // register the restart game event handler
     restartButton.setOnAction(event -> {
       game.restart(players, dice, currentScoreText, roundText, rollText);
       
@@ -112,30 +115,35 @@ public class PlayGame extends Application
     // Add the button to exit the program
     exitButton = new Button("Exit");
     
+    // register the exit game event handler
     exitButton.setOnAction( event -> {
       primaryStage.close();
     });
     
-    // Create HBox to put roll and keep score buttons in
+    // Create HBox to put restart and exit buttons in
     HBox buttonHBox2 = new HBox(50, restartButton, exitButton);
     buttonHBox2.setAlignment(Pos.CENTER);
     
-    // Add the nodes to a GridPane
+    // Add all the nodes created above to a root VBox node
     VBox boardVBox = new VBox(20, playerGrid, roundRollVBox, diceHBox, currentScoreHBox, buttonHBox1, buttonHBox2);
     boardVBox.getStyleClass().add("board");
     
-    // Create a Scene with the Pane as the root node
+    // Create a scene object with the VBox as the root node
     Scene scene = new Scene(boardVBox, SCENE_WIDTH, SCENE_HEIGHT);
   
     // add css styling to scene
     scene.getStylesheets().add("assets/game.css");
+
+    // highlight the first player before game starts
     players[currentPlayerIndex].getPlayerText().setStyle("-fx-font-weight: bold; -fx-text-fill: red");
     players[currentPlayerIndex].getScoreText().setStyle("-fx-font-weight: bold; -fx-text-fill: red");
     
+    // set the scene and show it on the primary stage
     primaryStage.setScene(scene);
     primaryStage.show();
   }
 
+  // method to create an initial stage which a user can pick the values for their game
   private void inputStage()
   {
     // create sliders to capture user input for player count
@@ -193,34 +201,50 @@ public class PlayGame extends Application
     Button startGameButton = new Button("Start Game");
     startGameButton.getStyleClass().add("blue-button");
 
+    // add all the nodes created above to a root VBox node
     VBox inputVBox = new VBox(40, playersHBox, roundsHBox, diceHBox, startGameButton);
     inputVBox.getStyleClass().add("board");
     inputVBox.setAlignment(Pos.CENTER);
 
+    // add the root VBox node to the input scene
     Scene inputScene = new Scene(inputVBox, SCENE_WIDTH, SCENE_HEIGHT);
+
     // add css styling to scene
     inputScene.getStylesheets().add("assets/game.css");
 
+    // create a stage for the input stage
     Stage inputStage = new Stage();
+
+    // add the scene to the input stage
     inputStage.setScene(inputScene);
 
+    // register the start game event handler
     startGameButton.setOnAction( event -> {
+      // get all the values from the sliders
       int playersCount = (int)playersSlider.getValue();
       int roundsCount = (int)roundsSlider.getValue();
       int diceCount = (int)diceSlider.getValue();
-    
+
+      // create a new game object with the values grabbed from the sliders
       game = new Game(roundsCount, playersCount, diceCount);
+
+      // close the input stage and proceed to the primary stage
       inputStage.close();
     });
 
+    // register and event handler to exit out of the app altogether
+    // if the user closes out the input stage window before starting game
     inputStage.setOnCloseRequest( event ->
     {
       System.exit(0);
     });
 
+    // use the showAndWait method here to halt the app at this stage
+    // and wait for user input before proceeding to the primary stage
     inputStage.showAndWait();
   }
 
+  // inner class to handle the keep score button events
   class KeepScoreButtonHandler implements EventHandler<ActionEvent>
   {
     @Override
@@ -252,11 +276,13 @@ public class PlayGame extends Application
         roundText.setText("Round " + game.getCurrentRound());
         players[currentPlayerIndex].highlight();
       } else {
+        // end the game if there are no more turns left
         game.over(players, rollButton, keepScoreButton, roundText, rollText, currentScoreText);
       }
     }
   }
   
+  // inner class to handle the roll button events
   class RollButtonHandler implements EventHandler<ActionEvent>
   {
     @Override
@@ -264,15 +290,17 @@ public class PlayGame extends Application
     {
       currentPlayerIndex = game.getCurrentPlayer() - 1;
       
-      // roll the dice
+      // roll all of the dice
       Dice.rollAll(dice);
       
       // calculate the score from the roll and update the current player field
       int roundScore = Dice.calculateScore(dice, dice.length);
       players[currentPlayerIndex].setRoundScore(roundScore, currentScoreText);
       
+      // display the current roll number
       rollText.setText("Roll " + dice[0].getRollNumber());
       
+      // hide the roll button if we've reached the last roll for a user
       if (dice[0].getRollNumber() >= 3)
         rollButton.setVisible(false);
     }
