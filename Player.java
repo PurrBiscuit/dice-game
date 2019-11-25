@@ -82,8 +82,7 @@ public class Player
   public void rollAll(Dice[] dice)
   {
     for (int i = 0; i < dice.length; i++)
-      if (!dice[i].getSelected())
-        dice[i].roll();
+      dice[i].roll();
 
     rollNumber++;
   }

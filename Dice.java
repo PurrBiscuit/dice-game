@@ -19,18 +19,17 @@ public class Dice implements Rollable
   // no arg constructor to create a dice object with default values
   public Dice()
   {
-    faceValue = 0;
+    faceValue = 1;
     rollNumber = 0;
-    diceImage = new Image("file:assets/die_" + (faceValue + 1) + ".png");
+    diceImage = new Image("file:assets/die_1.png");
     diceView = new ImageView(diceImage);
 
     // add an event handler for mouse clicks to the diceView image
-    // that allow a dice to be selected to not be rolled again
+    // that allow a die to be selected to not be rolled again
     diceView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
-        // toggle the selected field based on mouse clicks to true and false
-        selected = selected ? false : true;
+        toggleSelected();
       }
     });
   }
@@ -52,8 +51,8 @@ public class Dice implements Rollable
     {
       dice[i].selected = false;
       dice[i].rollNumber = 0;
-      dice[i].faceValue = 0;
-      dice[i].diceImage = new Image("file:assets/die_" + (dice[i].faceValue + 1) + ".png");
+      dice[i].faceValue = 1;
+      dice[i].diceImage = new Image("file:assets/die_" + (dice[i].faceValue) + ".png");
       dice[i].diceView.setImage(dice[i].diceImage);
     }
   }
@@ -86,18 +85,38 @@ public class Dice implements Rollable
   @Override
   public void roll()
   {
-    // adds a spinning effect to the dice to simulate dice roll
-    RotateTransition diceTrans = new RotateTransition(new Duration(1000), diceView);
-    diceTrans.setFromAngle(0.0);
-    diceTrans.setToAngle(360.0);
-    diceTrans.play();
-    
-    // sets the faceValue field to a random number between 1 and 6
-    faceValue = new Random().nextInt(6) + 1;
-    diceImage = new Image("file:assets/die_" + (faceValue) + ".png");
-    diceView.setImage(diceImage);
-    
-    // increment the rollNumber field for the die
-    rollNumber++;
+    // only roll the die if it isn't selected to be held
+    if (!selected)
+    {
+      // adds a spinning effect to the dice to simulate dice roll
+      RotateTransition diceTrans = new RotateTransition(new Duration(1000), diceView);
+      diceTrans.setFromAngle(0.0);
+      diceTrans.setToAngle(360.0);
+      diceTrans.play();
+
+      // sets the faceValue field to a random number between 1 and 6
+      faceValue = new Random().nextInt(6) + 1;
+      diceImage = new Image("file:assets/die_" + (faceValue) + ".png");
+      diceView.setImage(diceImage);
+
+      // increment the rollNumber field for the die
+      rollNumber++;
+    }
+  }
+
+  // method to toggle whether a die is selected or not
+  private void toggleSelected()
+  {
+    // toggle the selected field based on mouse clicks to true and false
+    selected = selected ? false : true;
+
+    if (selected)
+    {
+      diceImage = new Image("file:assets/die_" + faceValue + "_selected.png");
+      diceView.setImage(diceImage);
+    } else {
+      diceImage = new Image("file:assets/die_" + faceValue + ".png");
+      diceView.setImage(diceImage);
+    }
   }
 }
