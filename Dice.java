@@ -35,8 +35,6 @@ public class Dice implements Rollable
       dice[i].diceImage = new Image("file:assets/die_" + (dice[i].faceValue + 1) + ".png");
       dice[i].diceView.setImage(dice[i].diceImage);
     }
-    
-    
   }
 
   public static void rollAll(Dice[] dice)
