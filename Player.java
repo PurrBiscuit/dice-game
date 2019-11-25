@@ -2,7 +2,7 @@ import javafx.scene.control.Label;
 
 public class Player
 {
-  private int rollNumber, roundScore, totalScore;
+  private int rollNumber, roundScore, totalScore, playerNumber;
   private Label playerText, scoreText;
   
   public Player(int i)
@@ -10,10 +10,16 @@ public class Player
     totalScore = 0;
     rollNumber = 0;
     roundScore = 0;
-    playerText = new Label("Player " + i);
+    playerNumber = i;
+    playerText = new Label("Player " + playerNumber);
     playerText.getStyleClass().add("player-score");
     scoreText = new Label(Integer.toString(totalScore));
     scoreText.getStyleClass().add("player-score");
+  }
+  
+  public int getPlayerNumber()
+  {
+    return playerNumber;
   }
   
   public Label getPlayerText()
@@ -45,6 +51,12 @@ public class Player
   {
     playerText.setStyle("-fx-font-weight: bold; -fx-text-fill: red");
     scoreText.setStyle("-fx-font-weight: bold; -fx-text-fill: red");
+  }
+  
+  public void highlightWinner()
+  {
+    playerText.setStyle("-fx-font-weight: bold; -fx-text-fill: white");
+    scoreText.setStyle("-fx-font-weight: bold; -fx-text-fill: white");
   }
   
   public void resetStyles()
