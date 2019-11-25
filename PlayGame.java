@@ -291,7 +291,7 @@ public class PlayGame extends Application
       currentPlayerIndex = game.getCurrentPlayer() - 1;
       
       // roll all of the dice
-      Dice.rollAll(dice);
+      Player.rollAll(dice);
       
       // calculate the score from the roll and update the current player field
       int roundScore = Dice.calculateScore(dice, dice.length);

@@ -78,6 +78,14 @@ public class Player
     scoreText.setStyle("");
   }
   
+  // method to roll all the dice at one time
+  public static void rollAll(Dice[] dice)
+  {
+    for (int i = 0; i < dice.length; i++)
+      if (!dice[i].getSelected())
+        dice[i].roll();
+  }
+  
   // method to set the rollNumber field for a player
   public void setRollNumber(int s)
   {

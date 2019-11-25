@@ -57,20 +57,6 @@ public class Dice implements Rollable
       dice[i].diceView.setImage(dice[i].diceImage);
     }
   }
-
-  // method to roll all the dice at one time
-  public static void rollAll(Dice[] dice)
-  {
-    for (int i = 0; i < dice.length; i++)
-      if (!dice[i].selected)
-        dice[i].roll();
-  }
-  
-  // method to return the current rollNumber for a die
-  public int getRollNumber()
-  {
-    return rollNumber;
-  }
   
   // method to return the current diceView for a die
   public ImageView getDiceView()
@@ -82,6 +68,18 @@ public class Dice implements Rollable
   public int getFaceValue()
   {
     return faceValue;
+  }
+  
+  // method to return the current rollNumber for a die
+  public int getRollNumber()
+  {
+    return rollNumber;
+  }
+  
+  // method to return the current selection status of a die
+  public boolean getSelected()
+  {
+    return selected;
   }
   
   // override the roll method from the Rollable interface
