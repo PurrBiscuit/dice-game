@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -85,23 +86,41 @@ public class Game
   
   public static void getResult(Player[] players, Label rollText)
   {
-    int playerNumber = highScore(players);
-    showWinner(players, playerNumber, rollText);
+    int highScore = highScore(players);
+    ArrayList<Player> highScorePlayers = playersWithHighScore(players, highScore);
+    
+    if (highScorePlayers.size() == 1)
+      showWinner(highScorePlayers.get(0), rollText);
+    else
+      showTie(highScorePlayers, rollText);
   }
   
   public static int highScore(Player[] players)
   {
-    int highestScore = 0;
+    int highestScore = players[0].getTotalScore();
     
     for (int i = 1; i < players.length; i++)
     {
-      if (players[i].getTotalScore() > players[highestScore].getTotalScore())
-        highestScore = i;
+      if (players[i].getTotalScore() > highestScore)
+        highestScore = players[i].getTotalScore();
     }
     
-    return highestScore + 1;
+    return highestScore;
   }
-    
+  
+  public static ArrayList<Player> playersWithHighScore(Player[] players, int highScore)
+  {
+    ArrayList<Player> highScoreList = new ArrayList<Player>();
+
+    for (Player player : players)
+    {
+      if (player.getTotalScore() == highScore)
+        highScoreList.add(player);
+    }
+
+    return highScoreList;
+  }
+
   public void over(Player[] players, Button roll, Button keep, 
                    Label roundText, Label rollText, Label roundScoreText)
   {    
@@ -140,12 +159,33 @@ public class Game
     rollText.setText("");
     rollText.setStyle("");
   }
-
-  public static void showWinner(Player[] players, int playerNumber, Label rollText)
+  
+  public static void showTie(ArrayList<Player> players, Label rollText)
   {
-    rollText.setText("Player " + playerNumber + " Wins!");
+    String playersString = "";
+    
+    for (int i = 0; i < players.size(); i++)
+    {
+      Player player = players.get(i);
+      
+      if ((i + 1) == players.size())
+        playersString += (" and " + player.getPlayerNumber());
+      else if ((i + 1) == (players.size() - 1))
+        playersString += (" " + player.getPlayerNumber());
+      else
+        playersString += (" " + player.getPlayerNumber() + ",");
+        
+      player.highlightWinner();
+    }
+    
+    rollText.setText("Players " + playersString + " Tied!");
     rollText.setStyle("-fx-font-size: 40pt; -fx-text-fill: white");
-    players[playerNumber - 1].getPlayerText().setStyle("-fx-font-weight: bold; -fx-text-fill: white");
-    players[playerNumber - 1].getScoreText().setStyle("-fx-font-weight: bold; -fx-text-fill: white");
+  }
+
+  public static void showWinner(Player player, Label rollText)
+  {
+    rollText.setText("Player " + player.getPlayerNumber() + " Wins!");
+    rollText.setStyle("-fx-font-size: 40pt; -fx-text-fill: white");
+    player.highlightWinner();
   }
 }
