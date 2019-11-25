@@ -1,0 +1,41 @@
+.label {
+  -fx-font-size: 30pt;
+}
+
+.button {
+  -fx-background-color: linear-gradient(#707070, #585858);
+  -fx-pref-width: 350px;
+  -fx-background-radius: 30;
+  -fx-background-insets: 0;
+  -fx-text-fill: white;
+  -fx-font-size: 50px;
+}
+
+.button:hover {
+  -fx-text-fill: black;
+}
+
+.player-score {
+  -fx-font-size: 40pt;
+}
+
+#roll-warning {
+  -fx-text-fill: red;
+  -fx-font-size: 40pt;
+}
+
+#board {
+  -fx-background-image: url("table-background.jpg");
+}
+
+#current-score {
+  -fx-font-size: 20pt;
+}
+
+#roll {
+  -fx-background-color: linear-gradient(#7ebcea, #2f4b8f);
+}
+
+#keep-score {
+  -fx-background-color: linear-gradient(#ff5400, #be1d00);
+}
