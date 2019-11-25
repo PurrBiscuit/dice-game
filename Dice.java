@@ -2,8 +2,10 @@
 
 import java.util.Random;
 import javafx.animation.RotateTransition;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 public class Dice implements Rollable
@@ -12,6 +14,7 @@ public class Dice implements Rollable
   private int faceValue, rollNumber;
   private Image diceImage;
   private ImageView diceView;
+  private boolean selected = false;
 
   // no arg constructor to create a dice object with default values
   public Dice()
@@ -20,6 +23,16 @@ public class Dice implements Rollable
     rollNumber = 0;
     diceImage = new Image("file:assets/die_" + (faceValue + 1) + ".png");
     diceView = new ImageView(diceImage);
+
+    // add an event handler for mouse clicks to the diceView image
+    // that allow a dice to be selected to not be rolled again
+    diceView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        // toggle the selected field based on mouse clicks to true and false
+        selected = selected ? false : true;
+      }
+    });
   }
   
   // recursive method to add the dice up and produce a score
@@ -37,6 +50,7 @@ public class Dice implements Rollable
   {
     for (int i = 0; i < dice.length; i++)
     {
+      dice[i].selected = false;
       dice[i].rollNumber = 0;
       dice[i].faceValue = 0;
       dice[i].diceImage = new Image("file:assets/die_" + (dice[i].faceValue + 1) + ".png");
@@ -48,7 +62,8 @@ public class Dice implements Rollable
   public static void rollAll(Dice[] dice)
   {
     for (int i = 0; i < dice.length; i++)
-      dice[i].roll();
+      if (!dice[i].selected)
+        dice[i].roll();
   }
   
   // method to return the current rollNumber for a die
