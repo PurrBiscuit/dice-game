@@ -1,3 +1,5 @@
+// Dice class - manages the dice objects created by a new game
+
 import java.util.Random;
 import javafx.animation.RotateTransition;
 import javafx.scene.image.Image;
@@ -6,10 +8,12 @@ import javafx.util.Duration;
 
 public class Dice implements Rollable
 {
+  // create fields for dice objects
   private int faceValue, rollNumber;
   private Image diceImage;
   private ImageView diceView;
-    
+
+  // no arg constructor to create a dice object with default values
   public Dice()
   {
     faceValue = 0;
@@ -18,6 +22,7 @@ public class Dice implements Rollable
     diceView = new ImageView(diceImage);
   }
   
+  // recursive method to add the dice up and produce a score
   public static int calculateScore(Dice[] dice, int end)
   {
     if (end <= 0)
@@ -26,6 +31,8 @@ public class Dice implements Rollable
       return (calculateScore(dice, end - 1) + dice[end - 1].faceValue);
   }
   
+  // method which sets all the dice values back to 0
+  // and set the image to the 1 value facing up again
   public static void resetDice(Dice[] dice)
   {
     for (int i = 0; i < dice.length; i++)
@@ -37,39 +44,47 @@ public class Dice implements Rollable
     }
   }
 
+  // method to roll all the dice at one time
   public static void rollAll(Dice[] dice)
   {
     for (int i = 0; i < dice.length; i++)
       dice[i].roll();
   }
   
+  // method to return the current rollNumber for a die
   public int getRollNumber()
   {
     return rollNumber;
   }
   
+  // method to return the current diceView for a die
   public ImageView getDiceView()
   {
     return diceView;
   }
   
+  // method to return the current faceValue for a die
   public int getFaceValue()
   {
     return faceValue;
   }
   
+  // override the roll method from the Rollable interface
   @Override
   public void roll()
   {
+    // adds a spinning effect to the dice to simulate dice roll
     RotateTransition diceTrans = new RotateTransition(new Duration(1000), diceView);
     diceTrans.setFromAngle(0.0);
     diceTrans.setToAngle(360.0);
     diceTrans.play();
     
+    // sets the faceValue field to a random number between 1 and 6
     faceValue = new Random().nextInt(6) + 1;
     diceImage = new Image("file:assets/die_" + (faceValue) + ".png");
     diceView.setImage(diceImage);
     
+    // increment the rollNumber field for the die
     rollNumber++;
   }
 }
