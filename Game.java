@@ -93,6 +93,8 @@ public class Game
       showWinner(highScorePlayers.get(0), rollText);
     else
       showTie(highScorePlayers, rollText);
+
+    rollText.setStyle("-fx-font-size: 40pt; -fx-text-fill: white");
   }
   
   public static int highScore(Player[] players)
@@ -179,13 +181,11 @@ public class Game
     }
     
     rollText.setText("Players " + playersString + " Tied!");
-    rollText.setStyle("-fx-font-size: 40pt; -fx-text-fill: white");
   }
 
   public static void showWinner(Player player, Label rollText)
   {
     rollText.setText("Player " + player.getPlayerNumber() + " Wins!");
-    rollText.setStyle("-fx-font-size: 40pt; -fx-text-fill: white");
     player.highlightWinner();
   }
 }
