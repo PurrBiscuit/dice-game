@@ -1,4 +1,4 @@
-// Gamne class - manages the game object created by the PlayGame driver class
+// Game class - manages the game object created by the PlayGame driver class
 
 import java.util.ArrayList;
 import java.util.Scanner;
