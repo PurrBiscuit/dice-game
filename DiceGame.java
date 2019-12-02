@@ -27,6 +27,7 @@ public class DiceGame extends Game
   public DiceGame(int r, int p, int d)
   {
     super(p);
+    maxRounds = r;
     dice = new Dice[d];
 
     for (int i = 0; i < dice.length; i++)
