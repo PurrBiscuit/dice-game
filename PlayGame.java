@@ -106,7 +106,7 @@ public class PlayGame extends Application
 
     // register the restart game event handler
     restartButton.setOnAction(event -> {
-      game.restart(players, dice, currentScoreText, roundText, rollText);
+      game.restart(currentScoreText, roundText, rollText);
       
       rollButton.setVisible(true);
       keepScoreButton.setVisible(true);

@@ -145,9 +145,10 @@ public class DiceGame extends Game
   
   // method used to restart a game by setting all the values back to
   // the original values that are set when a new game is created
-  public void restart(Player[] players, Dice[] dice, Label roundScoreText,
-                      Label roundText, Label rollText)
+  public void restart(Label roundScoreText, Label roundText, Label rollText)
   {
+    Player[] players = getPlayers();
+
     // reset current round and player to 1
     currentPlayer = 1;
     currentRound = 1;
