@@ -278,7 +278,7 @@ public class PlayGame extends Application
         players[currentPlayerIndex].highlight();
       } else {
         // end the game if there are no more turns left
-        game.over(players, rollButton, keepScoreButton, roundText, rollText, currentScoreText);
+        game.over(rollButton, keepScoreButton, roundText, rollText, currentScoreText);
       }
     }
   }

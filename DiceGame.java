@@ -56,34 +56,12 @@ public class DiceGame extends Game
   {
     return maxRounds;
   }
-  
-  // method which determines if there is another turn left in a game
-  public boolean nextTurn()
-  {
-    // check if the current player is not the last player
-    if (currentPlayer < getMaxPlayers())
-    {
-      // move to the next player if it is
-      currentPlayer++;
-      return true;
-    }
-    else if (currentRound < maxRounds)
-    {
-      // otherwise bump the round number since we've reached last player
-      currentRound++;
-      // start back at player 1
-      currentPlayer = 1;
-      
-      return true;
-    }
-    
-    // return false to indicate that there are no more turns left in the game
-    return false;
-  }
-  
+
   // method to determine the result of a game (ie. show winner or ties)
-  private static void getResult(Player[] players, Label rollText)
+  private void getResult(Label rollText)
   {
+    Player[] players = getPlayers();
+
     // check what the high score is
     int highScore = highScore(players);
     // find all players with this score
@@ -112,9 +90,47 @@ public class DiceGame extends Game
     
     return highestScore;
   }
-  
+
+  // method which determines if there is another turn left in a game
+  public boolean nextTurn()
+  {
+    // check if the current player is not the last player
+    if (currentPlayer < getMaxPlayers())
+    {
+      // move to the next player if it is
+      currentPlayer++;
+      return true;
+    }
+    else if (currentRound < maxRounds)
+    {
+      // otherwise bump the round number since we've reached last player
+      currentRound++;
+      // start back at player 1
+      currentPlayer = 1;
+
+      return true;
+    }
+
+    // return false to indicate that there are no more turns left in the game
+    return false;
+  }
+
+  // method to end a game and call other methods to determine the result of the game
+  public void over(Button roll, Button keep,
+                   Label roundText, Label rollText, Label roundScoreText)
+  {
+    roll.setVisible(false);
+    keep.setVisible(false);
+    roundText.setText("GAME OVER");
+    roundText.setStyle("-fx-font-size: 50pt; -fx-text-fill: white; -fx-underline: true");
+    
+    roundScoreText.setVisible(false);
+    
+    getResult(rollText);
+  }
+
   // return a list of all the players with the highscore for a game
-  private static ArrayList<Player> playersWithHighScore(Player[] players, int highScore)
+  private ArrayList<Player> playersWithHighScore(Player[] players, int highScore)
   {
     ArrayList<Player> highScoreList = new ArrayList<Player>();
 
@@ -125,20 +141,6 @@ public class DiceGame extends Game
     }
 
     return highScoreList;
-  }
-
-  // method to end a game and call other methods to determine the result of the game
-  public void over(Player[] players, Button roll, Button keep, 
-                   Label roundText, Label rollText, Label roundScoreText)
-  {    
-    roll.setVisible(false);
-    keep.setVisible(false);
-    roundText.setText("GAME OVER");
-    roundText.setStyle("-fx-font-size: 50pt; -fx-text-fill: white; -fx-underline: true");
-    
-    roundScoreText.setVisible(false);
-    
-    DiceGame.getResult(players, rollText);
   }
   
   // method used to restart a game by setting all the values back to
@@ -171,7 +173,7 @@ public class DiceGame extends Game
   }
   
   // logic used to correctly show the results of a tie after a game ends
-  private static void showTie(ArrayList<Player> players, Label rollText)
+  private void showTie(ArrayList<Player> players, Label rollText)
   {
     // initialize empty string to concatonate values to below
     String playersString = "";
@@ -197,7 +199,7 @@ public class DiceGame extends Game
   }
 
   // logic used to correctly show the winner if no ties exists
-  private static void showWinner(Player player, Label rollText)
+  private void showWinner(Player player, Label rollText)
   {
     rollText.setText("Player " + player.getPlayerNumber() + " Wins!");
     player.highlightWinner();
