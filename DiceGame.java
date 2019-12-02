@@ -1,11 +1,11 @@
-// Game class - manages the game object created by the PlayGame driver class
+// DiceGame class - manages the game object created by the PlayGame driver class
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class Game
+public class DiceGame
 {
   // create fields for game objects
   private int maxRounds, maxPlayers;
@@ -15,7 +15,7 @@ public class Game
   private Dice[] dice;
   
   // no arg constructor to create a new game with default values
-  public Game()
+  public DiceGame()
   {
     maxRounds = 3;
     maxPlayers = 4;
@@ -30,7 +30,7 @@ public class Game
   }
   
   // constructor to create a new game with custom values passed in
-  public Game(int r, int p, int d)
+  public DiceGame(int r, int p, int d)
   {
     maxRounds = r;
     maxPlayers = p;
@@ -155,7 +155,7 @@ public class Game
     
     roundScoreText.setVisible(false);
     
-    Game.getResult(players, rollText);
+    DiceGame.getResult(players, rollText);
   }
   
   // method used to restart a game by setting all the values back to

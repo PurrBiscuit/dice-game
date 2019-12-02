@@ -21,7 +21,7 @@ public class PlayGame extends Application
   // create fields that will be used throughout the dice game app
   private final double SCENE_WIDTH = 1400.0;
   private final double SCENE_HEIGHT = 900.0;
-  private Game game;
+  private DiceGame game;
   private Dice[] dice;
   private Player[] players;
   private Label currentScoreText, rollText, roundText;
@@ -226,13 +226,13 @@ public class PlayGame extends Application
       int diceCount = (int)diceSlider.getValue();
 
       // create a new game object with the values grabbed from the sliders
-      game = new Game(roundsCount, playersCount, diceCount);
+      game = new DiceGame(roundsCount, playersCount, diceCount);
 
       // close the input stage and proceed to the primary stage
       inputStage.close();
     });
 
-    // register and event handler to exit out of the app altogether
+    // register an event handler to exit out of the app altogether
     // if the user closes out the input stage window before starting game
     inputStage.setOnCloseRequest( event ->
     {
