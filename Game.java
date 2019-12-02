@@ -32,7 +32,7 @@ public class Game
     return players;
   }
 
-  // method to return the player objects used for a game
+  // method to return the max number of players for a game
   public int getMaxPlayers()
   {
     return maxPlayers;
