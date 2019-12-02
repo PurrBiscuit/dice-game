@@ -1,44 +1,33 @@
-// DiceGame class - manages the game object created by the PlayGame driver class
+// DiceGame class - manages the dice game object created by the PlayGame driver class
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class DiceGame
+public class DiceGame extends Game
 {
   // create fields for game objects
-  private int maxRounds, maxPlayers;
+  private int maxRounds;
   private int currentPlayer = 1;
   private int currentRound = 1;
-  private Player[] players;
   private Dice[] dice;
   
-  // no arg constructor to create a new game with default values
+  // no arg constructor to create a new dice game with default values
   public DiceGame()
   {
     maxRounds = 3;
-    maxPlayers = 4;
-    players = new Player[maxPlayers];
     dice = new Dice[5];
-
-    for (int i = 0; i < players.length; i++)
-      players[i] = new Player(i + 1);
 
     for (int i = 0; i < dice.length; i++)
       dice[i] = new Dice();
   }
   
-  // constructor to create a new game with custom values passed in
+  // constructor to create a new dice game with custom values passed in
   public DiceGame(int r, int p, int d)
   {
-    maxRounds = r;
-    maxPlayers = p;
-    players = new Player[p];
+    super(p);
     dice = new Dice[d];
-
-    for (int i = 0; i < players.length; i++)
-      players[i] = new Player(i + 1);
 
     for (int i = 0; i < dice.length; i++)
       dice[i] = new Dice();
@@ -68,17 +57,11 @@ public class DiceGame
     return maxRounds;
   }
   
-  // method to return the player objects used for a game
-  public Player[] getPlayers()
-  {
-    return players;
-  }
-  
-  // nethod which determines if there is another turn left in a game
+  // method which determines if there is another turn left in a game
   public boolean nextTurn()
   {
     // check if the current player is not the last player
-    if (currentPlayer < maxPlayers)
+    if (currentPlayer < getMaxPlayers())
     {
       // move to the next player if it is
       currentPlayer++;
