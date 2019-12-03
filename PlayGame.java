@@ -228,6 +228,8 @@ public class PlayGame extends Application
       // create a new game object with the values grabbed from the sliders
       game = new DiceGame(roundsCount, playersCount, diceCount);
 
+      System.out.println("Starting Game: " + game);
+
       // close the input stage and proceed to the primary stage
       inputStage.close();
     });

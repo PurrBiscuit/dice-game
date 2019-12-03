@@ -173,6 +173,10 @@ public class DiceGame extends Game
     rollText.setText("");
     rollText.setStyle("");
   }
+
+  public String toString() {
+    return String.format("Rounds -> " + maxRounds + ", Players -> " + getMaxPlayers() + ", Dice -> " + dice.length);
+  }
   
   // logic used to correctly show the results of a tie after a game ends
   private void showTie(ArrayList<Player> players, Label rollText)
