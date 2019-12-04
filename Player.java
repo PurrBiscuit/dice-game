@@ -21,6 +21,8 @@ public class Player
     scoreText.getStyleClass().add("player-score");
   }
 
+  // method to determine if two players are equal to each
+  // other based on their current totalScore values
   public boolean equals(Player p)
   {
     return totalScore == p.totalScore;
