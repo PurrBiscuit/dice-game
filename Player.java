@@ -17,7 +17,7 @@ public class Player
     playerNumber = i;
     playerText = new Label("Player " + playerNumber);
     playerText.getStyleClass().add("player-score");
-    scoreText = new Label(Integer.toString(totalScore));
+    scoreText = new Label(String.valueOf(totalScore));
     scoreText.getStyleClass().add("player-score");
   }
 
@@ -104,13 +104,13 @@ public class Player
   public void setRoundScore(int s, Label roundScoreText)
   {
     roundScore = s;
-    roundScoreText.setText("Current Round Score: " + Integer.toString(s));
+    roundScoreText.setText("Current Round Score: " + String.valueOf(s));
   }
   
   // method to set the totalScore field for a player
   public void setTotalScore(int s)
   {
     totalScore = s;
-    scoreText.setText(Integer.toString(s));
+    scoreText.setText(String.valueOf(s));
   }
 }
