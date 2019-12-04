@@ -15,7 +15,7 @@ public class Player
     rollNumber = 0;
     roundScore = 0;
     playerNumber = i;
-    playerText = new Label("Player " + playerNumber);
+    playerText = new Label(Character.toUpperCase('p') + "layer " + playerNumber);
     playerText.getStyleClass().add("player-score");
     scoreText = new Label(String.valueOf(totalScore));
     scoreText.getStyleClass().add("player-score");
@@ -104,7 +104,7 @@ public class Player
   public void setRoundScore(int s, Label roundScoreText)
   {
     roundScore = s;
-    roundScoreText.setText("Current Round Score: " + String.valueOf(s));
+    roundScoreText.setText(Character.toUpperCase('c')  + "urrent Round Score: " + String.valueOf(s));
   }
   
   // method to set the totalScore field for a player
