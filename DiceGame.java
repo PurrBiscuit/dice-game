@@ -62,11 +62,10 @@ public class DiceGame extends Game
   private void getResult(Label rollText)
   {
     Player[] players = getPlayers();
+    Player highScorePlayer = highScorePlayer(players);
 
-    // check what the high score is
-    int highScore = highScore(players);
     // find all players with this score
-    ArrayList<Player> highScorePlayers = playersWithHighScore(players, highScore);
+    ArrayList<Player> highScorePlayers = playersWithHighScore(players, highScorePlayer);
     
     // if only one player has the score then call the showWinner method
     // else call the showTie method to correctly display tie info
@@ -77,19 +76,19 @@ public class DiceGame extends Game
 
     rollText.setStyle("-fx-font-size: 40pt; -fx-text-fill: white");
   }
-  
-  // find the highscore for a game and return the result
-  private static int highScore(Player[] players)
+
+  // find the first player with the highest score for a game and return the result
+  private Player highScorePlayer(Player[] players)
   {
-    int highestScore = players[0].getTotalScore();
+    Player highestScorePlayer = players[0];
     
     for (int i = 1; i < players.length; i++)
     {
-      if (players[i].getTotalScore() > highestScore)
-        highestScore = players[i].getTotalScore();
+      if (players[i].getTotalScore() > highestScorePlayer.getTotalScore())
+        highestScorePlayer = players[i];
     }
     
-    return highestScore;
+    return highestScorePlayer;
   }
 
   // method which determines if there is another turn left in a game
@@ -131,14 +130,20 @@ public class DiceGame extends Game
   }
 
   // return a list of all the players with the highscore for a game
-  private ArrayList<Player> playersWithHighScore(Player[] players, int highScore)
+  private ArrayList<Player> playersWithHighScore(Player[] players, Player highScorePlayer)
   {
     ArrayList<Player> highScoreList = new ArrayList<Player>();
 
-    for (Player player : players)
+    // add the highScorePlayer first before checking others
+    highScoreList.add(highScorePlayer);
+
+    // start the loop at the index of the highScorePlayer since we know only
+    // players with higher player numbers can possibly be tied
+    for (int i = highScorePlayer.getPlayerNumber(); i < players.length; i++)
     {
-      if (player.getTotalScore() == highScore)
-        highScoreList.add(player);
+      // check if the player being checked score equals the highScorePlayer's score
+      if (highScorePlayer.equals(players[i]))
+        highScoreList.add(players[i]);
     }
 
     return highScoreList;
@@ -174,7 +179,8 @@ public class DiceGame extends Game
     rollText.setStyle("");
   }
 
-  public String toString() {
+  public String toString()
+  {
     return String.format("Rounds -> " + maxRounds + ", Players -> " + getMaxPlayers() + ", Dice -> " + dice.length);
   }
   

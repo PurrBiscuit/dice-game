@@ -20,6 +20,11 @@ public class Player
     scoreText = new Label(Integer.toString(totalScore));
     scoreText.getStyleClass().add("player-score");
   }
+
+  public boolean equals(Player p)
+  {
+    return totalScore == p.totalScore;
+  }
   
   // method to return the current playerNumber for a player
   public int getPlayerNumber()

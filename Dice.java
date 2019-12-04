@@ -104,7 +104,8 @@ public class Dice implements Rollable
     }
   }
 
-  private void setDiceImage(int f, boolean s) {
+  private void setDiceImage(int f, boolean s)
+  {
     try {
       Image diceImage;
 
