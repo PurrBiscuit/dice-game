@@ -61,7 +61,7 @@ public class PlayGame extends Application
     playerGrid.setPadding(new Insets(30, 0, 20, 0));
     
     // display the current round and roll number in a VBox
-    roundText = new Label("Round " + game.getCurrentRound());
+    roundText = new Label("Round ".concat(String.valueOf(game.getCurrentRound())));
     roundText.getStyleClass().add("round-roll");
     rollText = new Label();
     rollText.getStyleClass().add("round-roll");
