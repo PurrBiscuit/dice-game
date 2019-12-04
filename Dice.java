@@ -1,5 +1,7 @@
 // Dice class - manages the dice objects created by a new game
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Random;
 import javafx.animation.RotateTransition;
 import javafx.event.EventHandler;
@@ -21,8 +23,8 @@ public class Dice implements Rollable
   {
     faceValue = 1;
     rollNumber = 0;
-    diceImage = new Image("file:assets/die_1.png");
-    diceView = new ImageView(diceImage);
+    diceView = new ImageView();
+    setDiceImage(1, selected);
 
     // add an event handler for mouse clicks to the diceView image
     // that allow a die to be selected to not be rolled again
@@ -52,8 +54,7 @@ public class Dice implements Rollable
       dice[i].selected = false;
       dice[i].rollNumber = 0;
       dice[i].faceValue = 1;
-      dice[i].diceImage = new Image("file:assets/die_" + (dice[i].faceValue) + ".png");
-      dice[i].diceView.setImage(dice[i].diceImage);
+      dice[i].setDiceImage(dice[i].faceValue, dice[i].selected);
     }
   }
   
@@ -96,11 +97,25 @@ public class Dice implements Rollable
 
       // sets the faceValue field to a random number between 1 and 6
       faceValue = new Random().nextInt(6) + 1;
-      diceImage = new Image("file:assets/die_" + (faceValue) + ".png");
-      diceView.setImage(diceImage);
+      setDiceImage(faceValue, selected);
 
       // increment the rollNumber field for the die
       rollNumber++;
+    }
+  }
+
+  private void setDiceImage(int f, boolean s) {
+    try {
+      Image diceImage;
+
+      if (s)
+        diceImage = new Image(new FileInputStream("assets/die_" + f + "_selected.png"));
+      else
+        diceImage = new Image(new FileInputStream("assets/die_" + f + ".png"));
+
+      diceView.setImage(diceImage);
+    } catch (FileNotFoundException err) {
+      System.out.println("ERROR: " + err.getMessage());
     }
   }
 
@@ -110,13 +125,6 @@ public class Dice implements Rollable
     // toggle the selected field based on mouse clicks to true and false
     selected = selected ? false : true;
 
-    if (selected)
-    {
-      diceImage = new Image("file:assets/die_" + faceValue + "_selected.png");
-      diceView.setImage(diceImage);
-    } else {
-      diceImage = new Image("file:assets/die_" + faceValue + ".png");
-      diceView.setImage(diceImage);
-    }
+    setDiceImage(faceValue, selected);
   }
 }
